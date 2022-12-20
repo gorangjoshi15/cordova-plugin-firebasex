@@ -2939,18 +2939,23 @@ public class FirebasePlugin extends CordovaPlugin {
     }
 
     private void setPreference(String name, boolean value){
-        SharedPreferences settings = cordovaActivity.getSharedPreferences(SETTINGS_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(name, value);
-        editor.apply();
+        try{
+            SharedPreferences settings = cordovaActivity.getSharedPreferences(SETTINGS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean(name, value);
+            editor.apply();
+        } catch (Exception e){
+        }
     }
 
     private boolean getPreference(String name){
-        boolean result;
         try{
+            if(cordovaActivity == null) {
+                cordovaActivity = this.cordova.getActivity();
+            }
             SharedPreferences settings = cordovaActivity.getSharedPreferences(SETTINGS_NAME, MODE_PRIVATE);
             result = settings.getBoolean(name, false);
-        }catch (Exception e){
+        } catch (Exception e){
             try{
                 result = getMetaDataFromManifest(name);
             }catch (Exception e2){
