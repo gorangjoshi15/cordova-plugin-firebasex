@@ -2949,6 +2949,7 @@ public class FirebasePlugin extends CordovaPlugin {
     }
 
     private boolean getPreference(String name){
+        boolean result;
         try{
             if(cordovaActivity == null) {
                 cordovaActivity = this.cordova.getActivity();
